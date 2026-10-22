@@ -1,0 +1,1777 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SnapExpense AI API",
+    "description": "Authenticated receipt drafts, user-confirmed expenses, private receipt images, and currency-separated analytics. Flutter integration is intentionally separate.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Ready",
+        "operationId": "ready_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/me": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Me",
+        "operationId": "me_v1_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/metadata": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "summary": "Metadata",
+        "operationId": "metadata_v1_metadata_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/receipts": {
+      "post": {
+        "tags": [
+          "Receipts"
+        ],
+        "summary": "Upload Receipt",
+        "operationId": "upload_receipt_v1_receipts_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_receipt_v1_receipts_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Receipt"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/receipts/{receipt_id}": {
+      "get": {
+        "tags": [
+          "Receipts"
+        ],
+        "summary": "Get Receipt",
+        "operationId": "get_receipt_v1_receipts__receipt_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "receipt_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Receipt Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Receipt"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/receipts/{receipt_id}/image-url": {
+      "get": {
+        "tags": [
+          "Receipts"
+        ],
+        "summary": "Image Url",
+        "operationId": "image_url_v1_receipts__receipt_id__image_url_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "receipt_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Receipt Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReceiptImageURL"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/receipts/{receipt_id}/extract": {
+      "post": {
+        "tags": [
+          "Extraction"
+        ],
+        "summary": "Extract Receipt",
+        "operationId": "extract_receipt_v1_receipts__receipt_id__extract_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "receipt_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Receipt Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtractionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/receipts/{receipt_id}/extraction": {
+      "get": {
+        "tags": [
+          "Extraction"
+        ],
+        "summary": "Extraction Status",
+        "operationId": "extraction_status_v1_receipts__receipt_id__extraction_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "receipt_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Receipt Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtractionJob"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/expenses": {
+      "post": {
+        "tags": [
+          "Expenses"
+        ],
+        "summary": "Create Expense",
+        "operationId": "create_expense_v1_expenses_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "A new UUID per confirmed expense; reuse only for an identical retry",
+              "title": "Idempotency-Key"
+            },
+            "description": "A new UUID per confirmed expense; reuse only for an identical retry"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Expense"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Expenses"
+        ],
+        "summary": "List Expenses",
+        "operationId": "list_expenses_v1_expenses_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 120
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "Food & Drinks",
+                    "Shopping",
+                    "Transport",
+                    "Groceries",
+                    "Health",
+                    "Entertainment",
+                    "Utilities",
+                    "Other"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "USD",
+                    "EUR",
+                    "MAD",
+                    "CAD",
+                    "GBP"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Currency"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date From"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date To"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpensePage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/expenses/{expense_id}": {
+      "get": {
+        "tags": [
+          "Expenses"
+        ],
+        "summary": "Get Expense",
+        "operationId": "get_expense_v1_expenses__expense_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "expense_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Expense Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Expense"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Expenses"
+        ],
+        "summary": "Update Expense",
+        "operationId": "update_expense_v1_expenses__expense_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "expense_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Expense Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseFields"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Expense"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Expenses"
+        ],
+        "summary": "Delete Expense",
+        "operationId": "delete_expense_v1_expenses__expense_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "expense_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Expense Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analytics": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Analytics",
+        "operationId": "analytics_v1_analytics_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/Period",
+              "default": "this_month"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "USD",
+                "EUR",
+                "MAD",
+                "CAD",
+                "GBP"
+              ],
+              "type": "string",
+              "default": "USD",
+              "title": "Currency"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpendingReport"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ask-snap": {
+      "post": {
+        "tags": [
+          "Ask Snap"
+        ],
+        "summary": "Ask Snap",
+        "operationId": "ask_snap_v1_ask_snap_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AskResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AskRequest": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Message"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "USD",
+                  "EUR",
+                  "MAD",
+                  "CAD",
+                  "GBP"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/ChatTurn"
+            },
+            "type": "array",
+            "maxItems": 6,
+            "title": "History"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "AskRequest"
+      },
+      "AskResponse": {
+        "properties": {
+          "answer": {
+            "type": "string",
+            "title": "Answer"
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope"
+          },
+          "references": {
+            "items": {
+              "$ref": "#/components/schemas/ExpenseReference"
+            },
+            "type": "array",
+            "title": "References"
+          },
+          "matched_count": {
+            "type": "integer",
+            "title": "Matched Count",
+            "default": 0
+          },
+          "suggestions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Suggestions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "answer",
+          "scope"
+        ],
+        "title": "AskResponse"
+      },
+      "Body_upload_receipt_v1_receipts_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "description": "One JPEG/PNG receipt, maximum 6 MiB and 20 megapixels"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_receipt_v1_receipts_post"
+      },
+      "CategoryTotal": {
+        "properties": {
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "amount_in_cents": {
+            "type": "integer",
+            "title": "Amount In Cents"
+          },
+          "percentage": {
+            "type": "number",
+            "title": "Percentage"
+          }
+        },
+        "type": "object",
+        "required": [
+          "category",
+          "amount_in_cents",
+          "percentage"
+        ],
+        "title": "CategoryTotal"
+      },
+      "ChatTurn": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "assistant"
+            ],
+            "title": "Role"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Content"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "ChatTurn"
+      },
+      "DateRange": {
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date",
+            "title": "Start"
+          },
+          "end_exclusive": {
+            "type": "string",
+            "format": "date",
+            "title": "End Exclusive"
+          }
+        },
+        "type": "object",
+        "required": [
+          "start",
+          "end_exclusive"
+        ],
+        "title": "DateRange"
+      },
+      "Expense": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "User Id"
+          },
+          "receipt_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Receipt Id"
+          },
+          "client_request_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Client Request Id"
+          },
+          "merchant": {
+            "type": "string",
+            "title": "Merchant"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Transaction Date"
+          },
+          "amount_in_cents": {
+            "type": "integer",
+            "title": "Amount In Cents"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "MAD",
+              "CAD",
+              "GBP"
+            ],
+            "title": "Currency"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "Food & Drinks",
+              "Shopping",
+              "Transport",
+              "Groceries",
+              "Health",
+              "Entertainment",
+              "Utilities",
+              "Other"
+            ],
+            "title": "Category"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "receipt_id",
+          "client_request_id",
+          "merchant",
+          "transaction_date",
+          "amount_in_cents",
+          "currency",
+          "category",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Expense"
+      },
+      "ExpenseCreate": {
+        "properties": {
+          "merchant": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Merchant"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Transaction Date"
+          },
+          "amount_in_cents": {
+            "type": "integer",
+            "maximum": 99999999999.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Amount In Cents"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "MAD",
+              "CAD",
+              "GBP"
+            ],
+            "title": "Currency"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "Food & Drinks",
+              "Shopping",
+              "Transport",
+              "Groceries",
+              "Health",
+              "Entertainment",
+              "Utilities",
+              "Other"
+            ],
+            "title": "Category"
+          },
+          "receipt_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Receipt Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "merchant",
+          "transaction_date",
+          "amount_in_cents",
+          "currency",
+          "category"
+        ],
+        "title": "ExpenseCreate"
+      },
+      "ExpenseFields": {
+        "properties": {
+          "merchant": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Merchant"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Transaction Date"
+          },
+          "amount_in_cents": {
+            "type": "integer",
+            "maximum": 99999999999.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Amount In Cents"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "MAD",
+              "CAD",
+              "GBP"
+            ],
+            "title": "Currency"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "Food & Drinks",
+              "Shopping",
+              "Transport",
+              "Groceries",
+              "Health",
+              "Entertainment",
+              "Utilities",
+              "Other"
+            ],
+            "title": "Category"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "merchant",
+          "transaction_date",
+          "amount_in_cents",
+          "currency",
+          "category"
+        ],
+        "title": "ExpenseFields"
+      },
+      "ExpensePage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Expense"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset"
+        ],
+        "title": "ExpensePage"
+      },
+      "ExpenseReference": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "merchant": {
+            "type": "string",
+            "title": "Merchant"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Transaction Date"
+          },
+          "amount_in_cents": {
+            "type": "integer",
+            "title": "Amount In Cents"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "MAD",
+              "CAD",
+              "GBP"
+            ],
+            "title": "Currency"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "Food & Drinks",
+              "Shopping",
+              "Transport",
+              "Groceries",
+              "Health",
+              "Entertainment",
+              "Utilities",
+              "Other"
+            ],
+            "title": "Category"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "merchant",
+          "transaction_date",
+          "amount_in_cents",
+          "currency",
+          "category"
+        ],
+        "title": "ExpenseReference"
+      },
+      "ExtractedFields": {
+        "properties": {
+          "merchant": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Merchant"
+          },
+          "transaction_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transaction Date"
+          },
+          "amount_in_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount In Cents"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "USD",
+                  "EUR",
+                  "MAD",
+                  "CAD",
+                  "GBP"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Food & Drinks",
+                  "Shopping",
+                  "Transport",
+                  "Groceries",
+                  "Health",
+                  "Entertainment",
+                  "Utilities",
+                  "Other"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "merchant",
+          "transaction_date",
+          "amount_in_cents",
+          "currency",
+          "category"
+        ],
+        "title": "ExtractedFields"
+      },
+      "ExtractionDraft": {
+        "properties": {
+          "fields": {
+            "$ref": "#/components/schemas/ExtractedFields"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "requires_review": {
+            "type": "boolean",
+            "const": true,
+            "title": "Requires Review",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "fields",
+          "warnings"
+        ],
+        "title": "ExtractionDraft"
+      },
+      "ExtractionJob": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "User Id"
+          },
+          "receipt_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Receipt Id"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "prompt_version": {
+            "type": "string",
+            "title": "Prompt Version"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "processing",
+              "completed",
+              "failed"
+            ],
+            "title": "Status"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractionDraft"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "receipt_id",
+          "model",
+          "prompt_version",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ExtractionJob"
+      },
+      "ExtractionResponse": {
+        "properties": {
+          "job": {
+            "$ref": "#/components/schemas/ExtractionJob"
+          },
+          "cached": {
+            "type": "boolean",
+            "title": "Cached"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "job",
+          "cached"
+        ],
+        "title": "ExtractionResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Health": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service",
+            "default": "snapexpense-api"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "Health"
+      },
+      "Period": {
+        "type": "string",
+        "enum": [
+          "this_month",
+          "last_month",
+          "last_three_months",
+          "this_year"
+        ],
+        "title": "Period"
+      },
+      "Receipt": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "User Id"
+          },
+          "storage_path": {
+            "type": "string",
+            "title": "Storage Path"
+          },
+          "sha256": {
+            "type": "string",
+            "title": "Sha256"
+          },
+          "mime_type": {
+            "type": "string",
+            "const": "image/jpeg",
+            "title": "Mime Type"
+          },
+          "byte_size": {
+            "type": "integer",
+            "title": "Byte Size"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "storage_path",
+          "sha256",
+          "mime_type",
+          "byte_size",
+          "created_at"
+        ],
+        "title": "Receipt"
+      },
+      "ReceiptImageURL": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "url",
+          "expires_in"
+        ],
+        "title": "ReceiptImageURL"
+      },
+      "SpendingBucket": {
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date",
+            "title": "Start"
+          },
+          "end_exclusive": {
+            "type": "string",
+            "format": "date",
+            "title": "End Exclusive"
+          },
+          "amount_in_cents": {
+            "type": "integer",
+            "title": "Amount In Cents"
+          }
+        },
+        "type": "object",
+        "required": [
+          "start",
+          "end_exclusive",
+          "amount_in_cents"
+        ],
+        "title": "SpendingBucket"
+      },
+      "SpendingReport": {
+        "properties": {
+          "period": {
+            "$ref": "#/components/schemas/Period"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "MAD",
+              "CAD",
+              "GBP"
+            ],
+            "title": "Currency"
+          },
+          "date_range": {
+            "$ref": "#/components/schemas/DateRange"
+          },
+          "previous_range": {
+            "$ref": "#/components/schemas/DateRange"
+          },
+          "total_in_cents": {
+            "type": "integer",
+            "title": "Total In Cents"
+          },
+          "previous_total_in_cents": {
+            "type": "integer",
+            "title": "Previous Total In Cents"
+          },
+          "transaction_count": {
+            "type": "integer",
+            "title": "Transaction Count"
+          },
+          "average_in_cents": {
+            "type": "integer",
+            "title": "Average In Cents"
+          },
+          "percentage_change": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Percentage Change"
+          },
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryTotal"
+            },
+            "type": "array",
+            "title": "Categories"
+          },
+          "buckets": {
+            "items": {
+              "$ref": "#/components/schemas/SpendingBucket"
+            },
+            "type": "array",
+            "title": "Buckets"
+          }
+        },
+        "type": "object",
+        "required": [
+          "period",
+          "currency",
+          "date_range",
+          "previous_range",
+          "total_in_cents",
+          "previous_total_in_cents",
+          "transaction_count",
+          "average_in_cents",
+          "percentage_change",
+          "categories",
+          "buckets"
+        ],
+        "title": "SpendingReport"
+      },
+      "User": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "User"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

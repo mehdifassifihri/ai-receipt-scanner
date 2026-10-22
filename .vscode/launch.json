@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "SnapExpense AI (Flutter)",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/frontend",
+      "program": "${workspaceFolder}/frontend/lib/main.dart",
+      "toolArgs": [
+        "--dart-define-from-file=${workspaceFolder}/frontend/config/local.json"
+      ]
+    }
+  ]
+}
